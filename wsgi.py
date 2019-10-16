@@ -5,18 +5,17 @@ from flask import Flask, escape, request
 # import nltk
 # import torch
 
-app = Flask(__name__)
+application = Flask(__name__)
 
-@app.route('/')
+@application.route('/')
 def hello():
     name = request.args.get("name", "World")
     return f'Hello, {escape(name)}!'
 
-@app.route('/versions')
-def other():
-    return f'Hello, other path'
+@application.route('/versions')
+def versions():
+    import flask
+    return 'Flask version: {}\n'.format(flask.__version__)
 
 if __name__ == "__main__":
-    app.run()
-else:
-    print('\n * Server ready!')
+    application.run()
