@@ -12,7 +12,7 @@ ds = DetectSentiment()
 
 @application.route('/')
 def predict():
-    text = flask.request.args.get("text")
+    text = flask.request.args.get("text", "")
     p = ds.predict(text)
     print('Request for "{}" returned {}'.format(text, p))
     return {
