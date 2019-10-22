@@ -1,27 +1,34 @@
 #!/usr/bin/env python3
 
-from flask import Flask, escape, request
-import gensim
-import nltk
+import flask
+import numpy
+import tensorflow
 
-application = Flask(__name__)
+from tf2_imdb import DetectSentiment
+
+application = flask.Flask(__name__)
+ds = DetectSentiment()
 
 
 @application.route('/')
-def hello():
-    name = request.args.get("name", "World")
-    return f'Hello, {escape(name)}!'
+def predict():
+    text = flask.request.args.get("text")
+    p = ds.predict(text)
+    print('Request for "{}" returned {}'.format(text, p))
+    return {
+        'text': text,
+        'prediction': p,
+        'sentiment': 'positive' if p > 0.5 else 'negative'
+    }
 
 
 @application.route('/versions')
 def versions():
-    import flask
-    return """Flask version: {}
-Gensim verison: {}
-NLTK version: {}
-""".format(flask.__version__,
-           gensim.__version__,
-           nltk.__version__)
+    return {
+        'Flask': flask.__version__,
+        'NumPy': numpy.__version__,
+        'TensorFlow': tensorflow.__version__
+    }
 
 
 if __name__ == "__main__":
