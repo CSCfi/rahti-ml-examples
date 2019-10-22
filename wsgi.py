@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
 
-from flask import Flask, escape, request
-import gensim
-import nltk
+import flask
+import os
 
-application = Flask(__name__)
+application = flask.Flask(__name__)
 
 
 @application.route('/')
 def hello():
-    name = request.args.get("name", "World")
-    return f'Hello, {escape(name)}!'
+    name = flask.request.args.get("name", "World")
+    return {
+        'msg': 'Hello, {}!'.format(flask.escape(name))
+    }
 
 
 @application.route('/versions')
 def versions():
-    import flask
-    return """Flask version: {}
-Gensim verison: {}
-NLTK version: {}
-""".format(flask.__version__,
-           gensim.__version__,
-           nltk.__version__)
+    return {
+        'Flask': flask.__version__
+    }
+
+
+@application.route('/environ')
+def environ():
+    return dict(os.environ)
 
 
 if __name__ == "__main__":
