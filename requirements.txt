@@ -2,4 +2,5 @@ gunicorn
 pip>=19.0
 flask
 numpy
-tensorflow==2.0.0
+transformers>=2.1.1
+onnxruntime>=0.5.0

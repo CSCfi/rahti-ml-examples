@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
 import flask
-import numpy
-import tensorflow
 
-from tf2_imdb import DetectSentiment
+from onnx_imdb import DetectSentiment
 
 application = flask.Flask(__name__)
 ds = DetectSentiment()
@@ -19,15 +17,6 @@ def predict():
         'text': text,
         'prediction': p,
         'sentiment': 'positive' if p > 0.5 else 'negative'
-    }
-
-
-@application.route('/versions')
-def versions():
-    return {
-        'Flask': flask.__version__,
-        'NumPy': numpy.__version__,
-        'TensorFlow': tensorflow.__version__
     }
 
 
