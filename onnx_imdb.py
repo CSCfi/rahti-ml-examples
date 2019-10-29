@@ -5,7 +5,7 @@ import onnxruntime as ort
 
 from rahti_utils import download_file
 
-bert_model_url = 'https://a3s.fi/mldata/bert-imdb.onnx'
+bert_model_url = 'https://a3s.fi/mldata/distilbert-imdb.onnx'
 
 print('Using ONNX Runtime version: {}.'.format(ort.__version__))
 
