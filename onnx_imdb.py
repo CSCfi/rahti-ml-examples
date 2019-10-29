@@ -14,11 +14,11 @@ class DetectSentiment:
     def __init__(self):
         bert_model_fname = download_file(bert_model_url)
         self.ort_session = ort.InferenceSession(bert_model_fname)
+        print('Loaded BERT model from', bert_model_url)
 
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased',
                                                        do_lower_case=True)
-
-        print('Loaded BERT model from', bert_model_url)
+        print('Initialized BERT tokenizer')
 
     def predict(self, text):
         tokenized = self.tokenizer.tokenize("[CLS] " + text + " [SEP]")
