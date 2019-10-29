@@ -1,2 +1,2 @@
 UPGRADE_PIP_TO_LATEST=1
-GUNICORN_CMD_ARGS="--timeout 60"
+GUNICORN_CMD_ARGS="--timeout=60 --workers=2"
