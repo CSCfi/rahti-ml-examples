@@ -50,9 +50,9 @@ If you have errors, take a look at the build log, and the pod log if the error a
 
 ## TensorFlow 2 example
 
-The [`tf2-imdb` branch](https://github.com/mvsjober/rahti-test/tree/tf2-imdb) of this repository contains an example of deploying a pre-trained sentiment detection model using `tf.keras`.
+The [`tf2-imdb` branch](https://github.com/mvsjober/rahti-test/tree/tf2-imdb/) of this repository contains an example of deploying a pre-trained sentiment detection model using `tf.keras`.
 
-The main changes here is that the main code is in a separate file [`tf2_imdb.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/tf2_imdb.py), and `wsgi.py` simply calls functions from there.
+The main changes here is that the main code is in a separate file [`tf2_imdb.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/tf2_imdb.py), and [`wsgi.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/wsgi.py) simply calls functions from there.
 
 The pre-trained model is downloaded from [CSC's Allas object storage service](https://docs.csc.fi/#data/Allas/).  This part requires some tricks as we start several processes in parallel to handle multiple HTTP requests, but we don't want them all to download the files.  The file downloading code can be found in [`rahti_utils.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/rahti_utils.py).
 
