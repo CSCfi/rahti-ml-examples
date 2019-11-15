@@ -27,26 +27,26 @@ The `master` branch of this repository contains a minimal Python service that ca
 
 ### Step 2: Create application in Rahti
 
-- Head to <https://rahti.csc.fi/> and the link to the "Rahti web user interface", and log in with your CSC account.
+Head to <https://rahti.csc.fi/> and click the link to the "Rahti web user interface", and log in with your CSC account.
 
-- From the Service Catalog select "Python".
+From the Service Catalog select "Python".
 
 ![Image of Rahti web user interface: selecting Python from the Service Catalog](images/rahti-1.png)
 
-- In the next screen you will see some useful links, in particular the first tells about the [settings for the Python container image](https://github.com/sclorg/s2i-python-container/blob/master/3.6/README.md), which we can be useful for more advanced setups.  Just click next.
+In the next screen you will see some useful links, in particular the first one tells about the [settings for the Python container image](https://github.com/sclorg/s2i-python-container/blob/master/3.6/README.md), which can be useful for more advanced setups.  For now, just click next.
 
-- In the next screen give your project and application some names, and point to your GitHub repository.
+In the next screen, give your project and application some names, and point to your GitHub repository.
 
 ### Step 3: Wait and hope for the best :-)
 
-After this Rahti will build your application and if everything goes well deploy it at something like `http://appname-projectname.rahtiapp.fi`.  Now you can try it out, for example from a unix shell:
+After this Rahti will build your application and if everything goes well deploy it at something like `http://appname-projectname.rahtiapp.fi`.  Now you can try it out, for example in a web browser, or from a unix shell:
 
 ```bash
 $ curl http://appname-projectname.rahtiapp.fi/
 {"msg":"Hello, World!"}
 ```
 
-If you have errors, take a look at the build log, and the pod log if the error appears only when the server is staring.  For more details see the [Rahti basic deployment documentation](https://rahti.csc.fi/tutorials/basic-console/).
+If you have errors, take a look at the build log.  If the build goes fine, but it still doesn't work take a look at the pod logs, in case there was some error when starting the server.  For more details see the [Rahti basic deployment documentation](https://rahti.csc.fi/tutorials/basic-console/).
 
 ## TensorFlow 2 example
 
