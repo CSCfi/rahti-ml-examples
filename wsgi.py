@@ -14,17 +14,5 @@ def hello():
     }
 
 
-@application.route('/versions')
-def versions():
-    return {
-        'Flask': flask.__version__
-    }
-
-
-@application.route('/environ')
-def environ():
-    return dict(os.environ)
-
-
 if __name__ == "__main__":
     application.run()
