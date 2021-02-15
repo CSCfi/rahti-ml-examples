@@ -2,4 +2,4 @@ gunicorn
 pip>=19.0
 flask
 numpy
-tensorflow==2.0.0
+tensorflow==2.4.1
