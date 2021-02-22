@@ -11,7 +11,7 @@ metadata:
     description: This template deploys A simple Machine Learning (sentiment detection) service.
     iconClass: fa fa-robot
     openshift.io/display-name: ML Example
-    openshift.io/documentation-url: https://github.com/tdeneke/rahti-ml-examples
+    openshift.io/documentation-url: https://github.com/CSCfi/rahti-ml-examples 
     openshift.io/support-url: https://www.csc.fi/contact-info
     openshift.io/long-description: 
     openshift.io/provider-display-name: CSC
@@ -141,7 +141,7 @@ parameters:
 - description: The URL of repository with the application code. 
   displayName: Source Repository URL
   name: SOURCE_REPOSITORY_URL
-  value: https://github.com/tdeneke/rahti-ml-examples 
+  value: https://github.com/CSCfi/rahti-ml-examples 
   required: true
 
 - description: The branch of the source repository. 
