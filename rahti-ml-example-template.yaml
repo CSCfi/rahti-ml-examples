@@ -138,13 +138,13 @@ parameters:
   value: rahti-ml-examples
   required: true
 
-- description: The URL of repository with the application code. 
+- description: The URL of repository with the application code (change the default only if you know what you are doing). 
   displayName: Source Repository URL
   name: SOURCE_REPOSITORY_URL
   value: https://github.com/CSCfi/rahti-ml-examples 
   required: true
 
-- description: The branch of the source repository. 
+- description: The branch of the source repository (tf2-imdb, onnx-imdb). 
   displayName: Source Repository Branch
   name: SOURCE_REPOSITORY_REF
   value: tf2-imdb 
