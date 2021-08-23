@@ -2,4 +2,4 @@ gunicorn
 pip>=19.0
 flask
 numpy
-tensorflow-gpu=2.0.0
+tensorflow-gpu==2.0.0
