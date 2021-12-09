@@ -1,6 +1,11 @@
 # Rahti machine learning deployment examples
 
-This repository contains several simple examples of how to deploy machine learning inference jobs as a service on [CSC's Rahti](https://rahti.csc.fi/) container cloud.
+This repository contains several simple examples of how to deploy machine learning inference jobs as a service on [CSC's Rahti](https://rahti.csc.fi/) container cloud:
+
+- [Minimal Python service](# Minimal Python service on Rahti)
+- [TensorFlow 2 example](# TensorFlow 2 example)
+- [PyTorch: BERT with ONNX](# PyTorch: BERT with ONNX)
+- [Turku neural parser pipeline](# Turku neural parser pipeline)
 
 If you are unfamiliar with Rahti and how to get access, first check [Rahti's documentation](https://rahti.csc.fi/).
 
@@ -13,7 +18,6 @@ The steps for running a service like this on Rahti go like this:
 3. Wait for Rahti to build your application and start it up... and (hopefully) enjoy your new service :-)
 
 Next, we'll go through this in more detail, setting up a minimal Python web service.
-
 
 ## Minimal Python service on Rahti
 
@@ -29,17 +33,26 @@ The `master` branch of this repository contains a minimal Python service that ca
 
 Head to <https://rahti.csc.fi/> and click the link to the "Rahti web user interface", and log in with your CSC account.
 
+Create a new project by clicking "Create Project". Specify your project name, and add "csc_project: " followed by the name or number of your CSC computing project in the Project description field. 
+
+![Image of Rahti web user interface: create project](images/rahti-0.png)
+
+After that, get started with your project and click "Browse Catalog". 
 From the Service Catalog select "Python".
 
-![Image of Rahti web user interface: selecting Python from the Service Catalog](images/rahti-1.png)
+In the screen you will see some useful links, in particular the first one tells about the [settings for the Python container image](https://github.com/sclorg/s2i-python-container/blob/master/3.8/README.md), which can be useful for more advanced setups.  For now, just click next.
 
-In the next screen you will see some useful links, in particular the first one tells about the [settings for the Python container image](https://github.com/sclorg/s2i-python-container/blob/master/3.6/README.md), which can be useful for more advanced setups.  For now, just click next.
+![Image of Rahti web user interface: useful links](images/rahti-2.png)
 
-In the next screen, give your project and application some names, and point to your GitHub repository.
+In the next screen, fill in configuration details for your application: give a name for your application (which will be a part of app public address), and point to your GitHub repository.
+
+![Image of Rahti web user interface: configuration of the application](images/rahti-3.png)
+
+Continue to the project overview to check the status of your application as it builds and deploys.
 
 ### Step 3: Wait and hope for the best :-)
 
-After this Rahti will build your application and if everything goes well deploy it at something like `http://appname-projectname.rahtiapp.fi`.  Now you can try it out, for example in a web browser, or from a unix shell:
+After this Rahti will build your application and if everything goes well deploy it at something like `http://appname-projectname.rahtiapp.fi` in a few minutes. Now you can try it out, for example in a web browser, or from a unix shell:
 
 ```bash
 $ curl http://appname-projectname.rahtiapp.fi/
@@ -50,21 +63,26 @@ If you have errors, take a look at the build log.  If the build goes fine, but i
 
 ## TensorFlow 2 example
 
-The [`tf2-imdb` branch](https://github.com/mvsjober/rahti-test/tree/tf2-imdb/) of this repository contains an example of deploying a pre-trained sentiment detection model using `tf.keras`.
+The [`tf2-imdb` branch](https://github.com/CSCfi/rahti-ml-examples/tree/tf2-imdb) of this repository contains an example of deploying a pre-trained sentiment detection model using `tf.keras`.
 
-The main changes here is that the main code is in a separate file [`tf2_imdb.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/tf2_imdb.py), and [`wsgi.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/wsgi.py) simply calls functions from there.
+The main changes here is that the main code is in a separate file [`tf2_imdb.py`](https://github.com/CSCfi/rahti-ml-examples/blob/tf2-imdb/tf2_imdb.py), and [`wsgi.py`](https://github.com/CSCfi/rahti-ml-examples/blob/tf2-imdb/wsgi.py) simply calls functions from there.
 
-The pre-trained model is downloaded from [CSC's Allas object storage service](https://docs.csc.fi/#data/Allas/).  This part requires some tricks as we start several processes in parallel to handle multiple HTTP requests, but we don't want them all to download the files.  The file downloading code can be found in [`rahti_utils.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/rahti_utils.py).
+The pre-trained model is downloaded from [CSC's Allas object storage service](https://docs.csc.fi/#data/Allas/). This part requires some tricks as we start several processes in parallel to handle multiple HTTP requests, but we don't want them all to download the files.  The file downloading code can be found in [`rahti_utils.py`](https://github.com/CSCfi/rahti-ml-examples/blob/tf2-imdb/rahti_utils.py).
 
-**NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the master branch).
+**NOTE:** Setting up with Rahti is the same as with the previous Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch):
+
+![Image of Rahti web user interface: configuration with advanced options](images/rahti-advanced.png)
+
+![Image of Rahti web user interface: configuration with Github branch](images/rahti-advanced2.png)
+
 
 ## PyTorch: BERT with ONNX
 
-The [`onnx-imdb` branch](https://github.com/mvsjober/rahti-test/tree/onnx-imdb) of this repository contains an example of deploying a pre-trained BERT model for sentiment detection using PyTorch and the [Transformers library](https://huggingface.co/transformers/).  The pre-trained model has been saved in the [ONNX format in PyTorch](https://pytorch.org/docs/stable/onnx.html).
+The [`onnx-imdb` branch](https://github.com/CSCfi/rahti-ml-examples/tree/onnx-imdb) of this repository contains an example of deploying a pre-trained BERT model for sentiment detection using PyTorch and the [Transformers library](https://huggingface.co/transformers/).  The pre-trained model has been saved in the [ONNX format in PyTorch](https://pytorch.org/docs/stable/onnx.html).
 
-The main code can be found in [`onnx_imdb.py`](https://github.com/mvsjober/rahti-test/blob/onnx-imdb/onnx_imdb.py).
+The main code can be found in [`onnx_imdb.py`](https://github.com/CSCfi/rahti-ml-examples/blob/onnx-imdb/onnx_imdb.py).
 
-**NOTE:** Setting up with Rahti is the same as with the previous examples, but note that inference with BERT is quite heavy, and you might need to add more cores to your pods and container.
+**NOTE:** Setting up with Rahti is the same as with the previous examples, but note that inference with BERT is quite heavy, and you might need to add more cores to your pods and container in Rahti.
 
 
 ## Turku neural parser pipeline
