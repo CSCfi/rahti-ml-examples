@@ -2,10 +2,10 @@
 
 This repository contains several simple examples of how to deploy machine learning inference jobs as a service on [CSC's Rahti](https://rahti.csc.fi/) container cloud:
 
-- [Minimal Python service](# Minimal Python service on Rahti)
-- [TensorFlow 2 example](# TensorFlow 2 example)
-- [PyTorch: BERT with ONNX](# PyTorch: BERT with ONNX)
-- [Turku neural parser pipeline](# Turku neural parser pipeline)
+- [Minimal Python service](#minimal-python-service-on-rahti)
+- [Deploying TensorFlow 2 sentiment detection model](#deploying-tensorflow-2-sentiment-detection-model)
+- [PyTorch: BERT with ONNX](#pytorch-bert-with-onnx)
+- [Turku neural parser pipeline](#turku-neural-parser-pipeline)
 
 If you are unfamiliar with Rahti and how to get access, first check [Rahti's documentation](https://rahti.csc.fi/).
 
@@ -61,7 +61,7 @@ $ curl http://appname-projectname.rahtiapp.fi/
 
 If you have errors, take a look at the build log.  If the build goes fine, but it still doesn't work take a look at the pod logs, in case there was some error when starting the server.  For more details see the [Rahti basic deployment documentation](https://rahti.csc.fi/tutorials/basic-console/).
 
-## TensorFlow 2 example
+## Deploying TensorFlow 2 sentiment detection model
 
 The [`tf2-imdb` branch](https://github.com/CSCfi/rahti-ml-examples/tree/tf2-imdb) of this repository contains an example of deploying a pre-trained sentiment detection model using `tf.keras`.
 
