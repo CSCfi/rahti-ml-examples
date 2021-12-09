@@ -8,7 +8,12 @@ The branch has four files:
 - [`rahti_utils.py`](https://github.com/mvsjober/rahti-test/blob/tf2-imdb/rahti_utils.py) to download the pre-trained model file from [CSC's Allas object storage service](https://docs.csc.fi/#data/Allas/)
 - [`requirements.txt`](https://github.com/CSCfi/rahti-ml-examples/blob/tf2-imdb/requirements.txt), which tells what Python packages Rahti should install when building the image.
 
-## Set up with Rahti
-Setting up with Rahti is the same as with the [Minimal Python example](https://github.com/CSCfi/rahti-ml-examples#minimal-python-service-on-rahti), except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the master branch):
+## Setting up with Rahti
 
-![Rahti web user interface: giving the name of the branch in the advanced options ](https://github.com/CSCfi/rahti-ml-examples/tree/master/images/rahti-2.png)
+Setting up with Rahti is the same as with the [Minimal Python example](https://github.com/CSCfi/rahti-ml-examples#minimal-python-service-on-rahti), except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch):
+
+![Image of Rahti web user interface: configuration with advanced options](https://github.com/CSCfi/rahti-ml-examples/blob/master/images/rahti-advanced.png)
+
+![Image of Rahti web user interface: configuration with Github branch](https://github.com/CSCfi/rahti-ml-examples/blob/master/images/rahti-advanced2.png)
+
+After this Rahti will build your application and if everything goes well deploy it at something like http://appname-projectname.rahtiapp.fi . As an output, you will get a sentiment prediction of a movie review. 
