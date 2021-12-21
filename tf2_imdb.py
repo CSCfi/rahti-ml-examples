@@ -21,7 +21,6 @@ if tf.config.list_physical_devices('GPU'):
 else:  # a default fallback strategy 
     strategy = tf.distribute.get_strategy()
 
-strategy = tf.distribute.MirroredStrategy()
 print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
 
 class DetectSentiment:
