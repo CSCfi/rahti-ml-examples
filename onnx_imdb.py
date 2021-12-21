@@ -13,7 +13,7 @@ print('Using ONNX Runtime version: {}.'.format(ort.__version__))
 class DetectSentiment:
     def __init__(self):
         bert_model_fname = download_file(bert_model_url)
-        self.ort_session = ort.InferenceSession(bert_model_fname)
+        self.ort_session = ort.InferenceSession(bert_model_fname, providers=['CUDAExecutionProvider'])
         print('Loaded BERT model from', bert_model_url)
 
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased',
