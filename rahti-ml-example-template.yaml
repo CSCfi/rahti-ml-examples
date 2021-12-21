@@ -82,7 +82,9 @@ objects:
           ports:
           - containerPort: 8080
             protocol: TCP
-          resources: {}
+          resources:
+            limits:
+              nvidia.com/gpu: ${GPU_RESOURCE_LIMIT}
     triggers:
     - imageChangeParams:
         automatic: true
@@ -155,3 +157,9 @@ parameters:
   name: APPLICATION_DOMAIN_SUFFIX
   required: true
   value: rahtiapp.fi
+
+- description: GPU resource limit (change the default if you are sure GPU is available)
+  displayName: GPU resource limit
+  name: GPU_RESOURCE_LIMIT
+  required: true
+  value: '0'
