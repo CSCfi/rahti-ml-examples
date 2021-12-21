@@ -13,7 +13,15 @@ oov_idx = 2  # out-of-vocabulary index
 
 print('Using Tensorflow version: {}, and Keras version: {}.'.format(
     tf.__version__, tf.keras.__version__))
+print(tf.config.get_visible_devices())
 
+# create a distribution strategy
+if tf.config.list_physical_devices('GPU'):
+    strategy = tf.distribute.MirroredStrategy()
+else:  # a default fallback strategy
+    strategy = tf.distribute.get_strategy()
+
+print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
 
 class DetectSentiment:
     def __init__(self):
@@ -40,7 +48,9 @@ class DetectSentiment:
                 idx = oov_idx
             v[0, i+1] = idx
 
-        p = self.model.predict(v, batch_size=1)
+        with strategy.scope():
+            p = self.model.predict(v, batch_size=1)
+
         return float(p[0, 0])
 
 
