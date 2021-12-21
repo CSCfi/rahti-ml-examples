@@ -47,7 +47,7 @@ class DetectSentiment:
             if idx >= self.nb_words:
                 idx = oov_idx
             v[0, i+1] = idx
-        
+
         with strategy.scope():
             p = self.model.predict(v, batch_size=1)
 
