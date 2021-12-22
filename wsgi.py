@@ -12,19 +12,17 @@ from pathlib import Path
 
 def load_gpt2():
     dummy = Path(os.path.join(tempfile.gettempdir(), "dummy"))
-    print('Checking', dummy)
 
     # If dummy file exists, this means another process is currently downloading
     # the model file, so we wait
     while dummy.exists():
-        print('Waiting...')
-        time.sleep(1)
-    print('Proceeding...')
+        print('[load_gpt2] Waiting for other process to download...')
+        time.sleep(5)
 
     dummy.touch()
-    ret = transformers.pipeline('text-generation', model='gpt2')
+    ret = transformers.pipeline('text-generation', model='gpt2', device=0)
     os.remove(dummy)
-    print('Done.')
+    print('[load_gpt2] DONE')
 
     return ret
 
