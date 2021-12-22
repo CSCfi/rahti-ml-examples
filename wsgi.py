@@ -1,11 +1,32 @@
 #!/usr/bin/env python3
 
 import flask
+import os
+import tempfile
+import time
 import torch
 import transformers
 
+from pathlib import Path
+
+
+def load_gpt2():
+    dummy = Path(os.path.join(tempfile.gettempdir(), "dummy"))
+
+    # If dummy file exists, this means another process is currently downloading
+    # the model file, so we wait
+    while dummy.exists():
+        time.sleep(1)
+
+    dummy.touch()
+    ret = transformers.pipeline('text-generation', model='gpt2')
+    os.remove(dummy)
+
+    return ret
+
+
 application = flask.Flask(__name__)
-generator = transformers.pipeline('text-generation', model='gpt2')
+generator = load_gpt2()
 
 
 @application.route('/')
