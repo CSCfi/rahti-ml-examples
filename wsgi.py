@@ -17,7 +17,7 @@ def load_gpt2():
     # the model file, so we wait
     while dummy.exists():
         print('[load_gpt2] Waiting for other process to download...')
-        time.sleep(5)
+        time.sleep(2)
 
     dummy.touch()
     ret = transformers.pipeline('text-generation', model='gpt2', device=0)
@@ -35,7 +35,7 @@ generator = load_gpt2()
 def generate():
     default_text = "You didn't give me any input, so I'll just ramble on"
     text = flask.request.args.get("text", default_text)
-    max_length = flask.request.args.get("max_length", 30)
+    max_length = flask.request.args.get("max_length", 100, type=int)
     output = generator(text, max_length=max_length, num_return_sequences=1)
 
     return output[0]
