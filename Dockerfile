@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:2.3.0-gpu
+FROM tensorflow/tensorflow:2.7.0-gpu
 
 WORKDIR /app
 COPY requirements.txt requirements.txt
