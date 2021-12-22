@@ -5,13 +5,13 @@ labels:
   template: ${NAME}
 message: |-
   A simple Machine Learning example (sentiment detection) service has been scheduled for creation in your project, and should be soon available at: https://${NAME}.${APPLICATION_DOMAIN_SUFFIX}
-  Pulling images might take some minutes to complete, so please be patient. You can follow progress on your projects overview page.
+  Building images takes some minutes to complete, so please be patient. You can follow progress on your projects overview page.
 metadata:
   annotations:
     description: This template deploys A simple Machine Learning (sentiment detection) service.
     iconClass: fa fa-robot
     openshift.io/display-name: ML Example
-    openshift.io/documentation-url: https://github.com/tdeneke/rahti-ml-examples 
+    openshift.io/documentation-url: https://github.com/CSCfi/rahti-ml-examples
     openshift.io/support-url: https://www.csc.fi/contact-info
     openshift.io/long-description: 
     openshift.io/provider-display-name: CSC
@@ -20,6 +20,46 @@ metadata:
   name: rahti-ml-examples
 
 objects:
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      description: Defines how the service is built.
+    labels:
+      app: ${NAME}
+    name: ${NAME}-bc
+  spec:
+    # the image builder in docker strategy seems to start
+    # the image being built resulting in the need for gpu
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${NAME}:latest
+    source:
+      git:
+        ref: ${SOURCE_REPOSITORY_REF}
+        uri: ${SOURCE_REPOSITORY_URL}
+      type: Git
+    strategy:
+      type: Docker
+      dockerStrategy:
+        dockerfilePath: Dockerfile
+    triggers:
+    - type: ImageChange
+    - type: ConfigChange
+
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      description: Reference for latest service image.
+    labels:
+      app: ${NAME}
+    name: ${NAME}
+
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
@@ -39,15 +79,25 @@ objects:
       spec:
         containers:
         - name: ${NAME} 
-          image: ${SOURCE_IMAGE}:${SOURCE_IMAGE_TAG} 
+          image: ${NAME}:latest
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
             protocol: TCP
           resources:
             limits:
-              nvidia.com/gpu: 2 
-    
+              nvidia.com/gpu: ${GPU_RESOURCE_LIMIT}
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}:latest
+      type: ImageChange
+    - type: ConfigChange
+
 - apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
@@ -92,16 +142,16 @@ parameters:
   value: rahti-ml-examples
   required: true
 
-- description: The IMAGE with the application code (change the default only if you know what you are doing). 
-  displayName: Source Image
-  name: SOURCE_IMAGE
-  value: tdeneke/tf2-imdb-cuda
+- description: The URL of repository with the application code (change the default only if you know what you are doing).
+  displayName: Source Repository URL
+  name: SOURCE_REPOSITORY_URL
+  value: https://github.com/tdeneke/rahti-ml-examples
   required: true
 
-- description: The tag of the IMAGE (latest). 
+- description: The branch of the source repository (tf2-imdb-cuda).
   displayName: Source Repository Branch
-  name: SOURCE_IMAGE_TAG
-  value: latest 
+  name: SOURCE_REPOSITORY_REF
+  value: tf2-imdb-cuda
   required: true
 
 - description: The exposed hostname suffix that will be used to create routes for app
@@ -109,3 +159,9 @@ parameters:
   name: APPLICATION_DOMAIN_SUFFIX
   required: true
   value: rahtiapp.fi
+
+- description: GPU resource limit (change the default if you are sure GPU is available)
+  displayName: GPU resource limit
+  name: GPU_RESOURCE_LIMIT
+  required: true
+  value: '1'
