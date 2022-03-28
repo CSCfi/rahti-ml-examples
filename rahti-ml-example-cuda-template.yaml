@@ -33,7 +33,7 @@ objects:
     # the image being built resulting in the need for gpu
     resources:
       limits:
-        nvidia.com/gpu: 1
+        nvidia.com/gpu: ${GPU_RESOURCE_LIMIT}
     output:
       to:
         kind: ImageStreamTag
