@@ -1,15 +1,16 @@
 import json
 import sys
+from typing import Dict, Any
 
 import numpy as np
 import tensorflow as tf
-
-from rahti_utils import download_file
+import tensorflow_datasets as tfds
+import tensorflow_hub as hub
 from tensorflow.keras.models import load_model
 
-word_index_url = 'https://s3.amazonaws.com/text-datasets/imdb_word_index.json'
-model_cnn1_url = 'https://a3s.fi/mldata/imdb-cnn1.h5'  # 88.88
-oov_idx = 2  # out-of-vocabulary index
+import mlflow
+from mlflow.tracking import MlflowClient
+from mlflow.models.signature import infer_signature
 
 print('Using Tensorflow version: {}, and Keras version: {}.'.format(
     tf.__version__, tf.keras.__version__))
@@ -25,35 +26,44 @@ print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
 
 class DetectSentiment:
     def __init__(self):
-        word_index_fname = download_file(word_index_url)
-        self.word_index = json.load(open(word_index_fname))
+        # get the data
+        self.train_data, self.validation_data, self.test_data = tfds.load(
+            name="imdb_reviews",
+            split=('train[:60%]', 'train[60%:]', 'test'),
+            as_supervised=True)
 
-        model_cnn1_name = download_file(model_cnn1_url)
-        self.model = load_model(model_cnn1_name)
+        # build the model
+        self.embedding = "https://tfhub.dev/google/nnlm-en-dim50/2"
+        hub_layer = hub.KerasLayer(self.embedding, input_shape=[],
+            dtype=tf.string, trainable=True)
+        self.model = tf.keras.Sequential()
+        self.model.add(hub_layer)
+        self.model.add(tf.keras.layers.Dense(16, activation='relu'))
+        self.model.add(tf.keras.layers.Dense(1))
 
-        self.embedding = self.model.get_layer(index=0)
-        self.nb_words = self.embedding.input_dim
-        self.maxlen = self.embedding.input_length
+    def predict(self, text: str, model_name: str):
+        model = mlflow.pyfunc.load_model(
+            model_uri=f"models:/{model_name}/Production"
+        )
 
-        print('Loaded model from', model_cnn1_url)
-        # print(self.model.summary())
-
-    def predict(self, text):
-        v = np.zeros((1, self.maxlen), dtype=int)
-        v[0, 0] = 1
-
-        for i, w in enumerate(text.split()):
-            idx = self.word_index[w] + 3 if w in self.word_index else oov_idx
-            if idx >= self.nb_words:
-                idx = oov_idx
-            v[0, i+1] = idx
+        pred = model.predict({"text": [text]})
  
-        with strategy.scope():
-            p = self.model.predict(v, batch_size=1)
-        return float(p[0, 0])
+        return pred.values.item(0)
 
+    def train(self, model_name: str, hyperparams: Dict[str, Any],  epochs: int):
+        #TODO: handle hyperparameters
+        self.model.compile(optimizer='adam',
+            loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+            metrics=['accuracy'])
+        with strategy.scope():
+            history = self.model.fit(self.train_data.shuffle(10000).batch(512),
+                epochs=epochs, validation_data=self.validation_data.batch(512),
+                verbose=0)
+
+        df = tfds.as_dataframe(self.train_data.take(1), tfds.builder('imdb_reviews').info).drop('label', axis=1)
+        sig = infer_signature(df, self.model.predict(df))
+
+        return history, sig, df, self.model
 
 if __name__ == '__main__':
-    ds = DetectSentiment()
-    text = ' '.join(sys.argv[1:])
-    print('Prediction for "{}": {}'.format(text, ds.predict(text)))
+    print('run the server as "python asgi.py"')
