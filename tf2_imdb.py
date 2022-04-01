@@ -30,6 +30,7 @@ class DetectSentiment:
         self.train_data, self.validation_data, self.test_data = tfds.load(
             name="imdb_reviews",
             split=('train[:60%]', 'train[60%:]', 'test'),
+            data_dir = "./tensorflow_datasets",
             as_supervised=True)
 
         # build the model
