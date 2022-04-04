@@ -37,10 +37,11 @@ class DetectSentiment:
         self.embedding = "https://tfhub.dev/google/nnlm-en-dim50/2"
         hub_layer = hub.KerasLayer(self.embedding, input_shape=[],
             dtype=tf.string, trainable=True)
-        self.model = tf.keras.Sequential()
-        self.model.add(hub_layer)
-        self.model.add(tf.keras.layers.Dense(16, activation='relu'))
-        self.model.add(tf.keras.layers.Dense(1))
+        with strategy.scope():
+            self.model = tf.keras.Sequential()
+            self.model.add(hub_layer)
+            self.model.add(tf.keras.layers.Dense(16, activation='relu'))
+            self.model.add(tf.keras.layers.Dense(1))
 
     def predict(self, text: str, model_name: str):
         model = mlflow.pyfunc.load_model(
@@ -53,10 +54,10 @@ class DetectSentiment:
 
     def train(self, model_name: str, hyperparams: Dict[str, Any],  epochs: int):
         #TODO: handle hyperparameters
-        self.model.compile(optimizer='adam',
-            loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
-            metrics=['accuracy'])
         with strategy.scope():
+            self.model.compile(optimizer='adam',
+                loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+                metrics=['accuracy'])
             history = self.model.fit(self.train_data.shuffle(10000).batch(512),
                 epochs=epochs, validation_data=self.validation_data.batch(512),
                 verbose=0)
