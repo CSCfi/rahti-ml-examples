@@ -35,9 +35,9 @@ class DetectSentiment:
 
         # build the model
         self.embedding = "https://tfhub.dev/google/nnlm-en-dim50/2"
-        hub_layer = hub.KerasLayer(self.embedding, input_shape=[],
-            dtype=tf.string, trainable=True)
         with strategy.scope():
+            hub_layer = hub.KerasLayer(self.embedding, input_shape=[],
+                dtype=tf.string, trainable=True)
             self.model = tf.keras.Sequential()
             self.model.add(hub_layer)
             self.model.add(tf.keras.layers.Dense(16, activation='relu'))
