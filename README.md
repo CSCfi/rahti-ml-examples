@@ -87,12 +87,6 @@ The main code can be found in [`onnx_imdb.py`](https://github.com/CSCfi/rahti-ml
 
 ## Turku neural parser pipeline
 
-Running the [Turku neural parser pipeline](http://turkunlp.org/Turku-neural-parser-pipeline/) in server mode on Rahti is pretty easy.  Just fork the [original GitHub repository](https://github.com/TurkuNLP/Turku-neural-parser-pipeline) and add a new file [`app.sh`](https://github.com/mvsjober/Turku-neural-parser-pipeline/blob/master/app.sh) containing the following lines:
+Running the [Turku neural parser pipeline](http://turkunlp.org/Turku-neural-parser-pipeline/) in server mode on Rahti is pretty easy.  Just fork the [original GitHub repository](https://github.com/TurkuNLP/Turku-neural-parser-pipeline) and add a new file [`app.sh`](https://github.com/mvsjober/Turku-neural-parser-pipeline/blob/master/app.sh) which handles downloading models and starting the server. 
 
-```bash
-#!/bin/bash
-python3 fetch_models.py fi_tdt
-python3 full_pipeline_server.py --gpu -1 --port 8080 --host 0.0.0.0 --conf models_fi_tdt/pipelines.yaml parse_plaintext
-```
-
-You also need to copy the file `requirements-cpu.txt` to `requirements.txt` so that Rahti can find it.  Here you can see an example of a working repository: <https://github.com/mvsjober/Turku-neural-parser-pipeline>.
+Here you can see an example of a working repository: <https://github.com/mvsjober/Turku-neural-parser-pipeline>. Take a look at the commits for what changes are needed. For example you might have to tweak the `requirements.txt` a bit.
