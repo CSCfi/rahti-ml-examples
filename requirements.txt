@@ -1,2 +1,6 @@
-gunicorn
-flask
+numpy
+sklearn
+plotly
+dash
+dash_bootstrap_components
+
