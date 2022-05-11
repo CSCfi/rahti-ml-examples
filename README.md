@@ -3,10 +3,10 @@
 This repository contains several simple examples of how to deploy machine learning inference jobs as a service on [CSC's Rahti](https://rahti.csc.fi/) container cloud:
 
 - [Minimal Python service](#minimal-python-service-on-rahti)
-- [Example dashboard using Dash](#example-dashboard-using-dash)
-- [Example dashboard using Streamlit](#example-dashboard-using-streamlit)
 - [Deploying TensorFlow 2 sentiment detection model](#deploying-tensorflow-2-sentiment-detection-model)
 - [PyTorch: BERT with ONNX](#pytorch-bert-with-onnx)
+- [Example dashboard using Dash](#example-dashboard-using-dash)
+- [Example dashboard using Streamlit](#example-dashboard-using-streamlit)
 - [Turku neural parser pipeline](#turku-neural-parser-pipeline)
 
 If you are unfamiliar with Rahti and how to get access, first check [Rahti's documentation](https://rahti.csc.fi/).
@@ -63,22 +63,6 @@ $ curl http://appname-projectname.rahtiapp.fi/
 
 If you have errors, take a look at the build log.  If the build goes fine, but it still doesn't work take a look at the pod logs, in case there was some error when starting the server.  For more details see the [Rahti basic deployment documentation](https://rahti.csc.fi/tutorials/basic-console/).
 
-## Example dashboard using Dash
-
-The [`dash` branch](https://github.com/jmakoske/rahti-ml-examples/tree/dash) of this repository contains an example dashboard built using [Dash](https://plotly.com/dash/).
-
-The main code is in a file [`app.py`](https://github.com/jmakoske/rahti-ml-examples/blob/dash/app.py).
-
-**NOTE:** Setting up with Rahti is the same as with the previous Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch):
-
-## Example dashboard using Streamlit
-
-The [`streamlit` branch](https://github.com/jmakoske/rahti-ml-examples/tree/streamlit) of this repository contains an example dashboard built using [Streamlit](https://streamlit.io/).
-
-The main code is in a file [`streamlit-iris.py`](https://github.com/jmakoske/rahti-ml-examples/blob/streamlit/streamlit-iris.py) and there is a separate file [`app.sh`](https://github.com/jmakoske/rahti-ml-examples/blob/streamlit/app.sh) that launches the application.
-
-**NOTE:** Setting up with Rahti is the same as with the previous Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch):
-
 ## Deploying TensorFlow 2 sentiment detection model
 
 The [`tf2-imdb` branch](https://github.com/CSCfi/rahti-ml-examples/tree/tf2-imdb) of this repository contains an example of deploying a pre-trained sentiment detection model using `tf.keras`.
@@ -87,7 +71,7 @@ The main changes here is that the main code is in a separate file [`tf2_imdb.py`
 
 The pre-trained model is downloaded from [CSC's Allas object storage service](https://docs.csc.fi/#data/Allas/). This part requires some tricks as we start several processes in parallel to handle multiple HTTP requests, but we don't want them all to download the files.  The file downloading code can be found in [`rahti_utils.py`](https://github.com/CSCfi/rahti-ml-examples/blob/tf2-imdb/rahti_utils.py).
 
-**NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch):
+**NOTE:** Setting up with Rahti is the same as with the previous Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch):
 
 ![Image of Rahti web user interface: configuration with advanced options](images/rahti-advanced.png)
 
@@ -102,6 +86,21 @@ The main code can be found in [`onnx_imdb.py`](https://github.com/CSCfi/rahti-ml
 
 **NOTE:** Setting up with Rahti is the same as with the previous examples, but note that inference with BERT is quite heavy, and you might need to add more cores to your pods and container in Rahti.
 
+## Example dashboard using Dash
+
+The [`dash` branch](https://github.com/jmakoske/rahti-ml-examples/tree/dash) of this repository contains an example dashboard built using [Dash](https://plotly.com/dash/).
+
+The dashboard code is in a file [`app.py`](https://github.com/jmakoske/rahti-ml-examples/blob/dash/app.py).
+
+**NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch).
+
+## Example dashboard using Streamlit
+
+The [`streamlit` branch](https://github.com/jmakoske/rahti-ml-examples/tree/streamlit) of this repository contains an example dashboard built using [Streamlit](https://streamlit.io/).
+
+The dashboard code is in a file [`streamlit-iris.py`](https://github.com/jmakoske/rahti-ml-examples/blob/streamlit/streamlit-iris.py) and there is a separate file [`app.sh`](https://github.com/jmakoske/rahti-ml-examples/blob/streamlit/app.sh) that launches the application.
+
+**NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch).
 
 ## Turku neural parser pipeline
 
