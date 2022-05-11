@@ -42,7 +42,7 @@ Create a new project by clicking "Create Project". Specify your project name, an
 After that, get started with your project and click "Browse Catalog". 
 From the Service Catalog select "Python".
 
-In the screen you will see some useful links, in particular the first one tells about the [settings for the Python container image](https://github.com/sclorg/s2i-python-container/blob/master/3.8/README.md), which can be useful for more advanced setups.  For now, just click next.
+In the screen you will see some useful links, in particular the first one tells about the [settings for the Python container image](https://github.com/sclorg/s2i-python-container/blob/master/3.8/README.md), which can be useful for more advanced setups.  In particular, the [different ways to execute your application](https://github.com/sclorg/s2i-python-container/blob/master/3.8/README.md#run-strategies) can be useful information. For now, just click next.
 
 ![Image of Rahti web user interface: useful links](images/rahti-2.png)
 
