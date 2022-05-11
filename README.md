@@ -88,17 +88,17 @@ The main code can be found in [`onnx_imdb.py`](https://github.com/CSCfi/rahti-ml
 
 ## Example dashboard using Dash
 
-The [`dash` branch](https://github.com/jmakoske/rahti-ml-examples/tree/dash) of this repository contains an example dashboard built using [Dash](https://plotly.com/dash/).
+The [`dash` branch](https://github.com/CSCfi/rahti-ml-examples/tree/dash) of this repository contains an example dashboard built using [Dash](https://plotly.com/dash/).
 
-The dashboard code is in a file [`app.py`](https://github.com/jmakoske/rahti-ml-examples/blob/dash/app.py).
+The dashboard code is in a file [`app.py`](https://github.com/CSCfi/rahti-ml-examples/blob/dash/app.py).
 
 **NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch).
 
 ## Example dashboard using Streamlit
 
-The [`streamlit` branch](https://github.com/jmakoske/rahti-ml-examples/tree/streamlit) of this repository contains an example dashboard built using [Streamlit](https://streamlit.io/).
+The [`streamlit` branch](https://github.com/CSCfi/rahti-ml-examples/tree/streamlit) of this repository contains an example dashboard built using [Streamlit](https://streamlit.io/).
 
-The dashboard code is in a file [`streamlit-iris.py`](https://github.com/jmakoske/rahti-ml-examples/blob/streamlit/streamlit-iris.py) and there is a separate file [`app.sh`](https://github.com/jmakoske/rahti-ml-examples/blob/streamlit/app.sh) that launches the application.
+The dashboard code is in a file [`streamlit-iris.py`](https://github.com/CSCfi/rahti-ml-examples/blob/streamlit/streamlit-iris.py) and there is a separate file [`app.sh`](https://github.com/CSCfi/rahti-ml-examples/blob/streamlit/app.sh) that launches the application.
 
 **NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch).
 
