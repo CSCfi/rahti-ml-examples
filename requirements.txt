@@ -2,5 +2,4 @@ numpy
 pandas
 sklearn
 plotly
-dash
-dash_bootstrap_components
+streamlit
