@@ -5,6 +5,8 @@ This repository contains several simple examples of how to deploy machine learni
 - [Minimal Python service](#minimal-python-service-on-rahti)
 - [Deploying TensorFlow 2 sentiment detection model](#deploying-tensorflow-2-sentiment-detection-model)
 - [PyTorch: BERT with ONNX](#pytorch-bert-with-onnx)
+- [Example dashboard using Dash](#example-dashboard-using-dash)
+- [Example dashboard using Streamlit](#example-dashboard-using-streamlit)
 - [Turku neural parser pipeline](#turku-neural-parser-pipeline)
 
 If you are unfamiliar with Rahti and how to get access, first check [Rahti's documentation](https://rahti.csc.fi/).
@@ -84,6 +86,21 @@ The main code can be found in [`onnx_imdb.py`](https://github.com/CSCfi/rahti-ml
 
 **NOTE:** Setting up with Rahti is the same as with the previous examples, but note that inference with BERT is quite heavy, and you might need to add more cores to your pods and container in Rahti.
 
+## Example dashboard using Dash
+
+The [`dash` branch](https://github.com/CSCfi/rahti-ml-examples/tree/dash) of this repository contains an example dashboard built using [Dash](https://plotly.com/dash/).
+
+The dashboard code is in a file [`app.py`](https://github.com/CSCfi/rahti-ml-examples/blob/dash/app.py).
+
+**NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch).
+
+## Example dashboard using Streamlit
+
+The [`streamlit` branch](https://github.com/CSCfi/rahti-ml-examples/tree/streamlit) of this repository contains an example dashboard built using [Streamlit](https://streamlit.io/).
+
+The dashboard code is in a file [`streamlit-iris.py`](https://github.com/CSCfi/rahti-ml-examples/blob/streamlit/streamlit-iris.py) and there is a separate file [`app.sh`](https://github.com/CSCfi/rahti-ml-examples/blob/streamlit/app.sh) that launches the application.
+
+**NOTE:** Setting up with Rahti is the same as with the Minimal Python example, except that when giving the URL of the GitHub repository, you need to click "advanced options" and give the name of then branch in the "Git Reference" field (as it otherwise will default the main branch).
 
 ## Turku neural parser pipeline
 
