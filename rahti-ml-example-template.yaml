@@ -4,11 +4,11 @@ labels:
   app: ${NAME}
   template: ${NAME}
 message: |-
-  A simple Machine Learning example (sentiment detection) service has been scheduled for creation in your project, and should be soon available at: https://${NAME}.${APPLICATION_DOMAIN_SUFFIX}
+  A simple Machine Learning example service has been scheduled for creation in your project, and should be soon available at: https://${NAME}.${APPLICATION_DOMAIN_SUFFIX}
   Building images takes some minutes to complete, so please be patient. You can follow progress on your projects overview page.
 metadata:
   annotations:
-    description: This template deploys A simple Machine Learning (sentiment detection) service.
+    description: This template deploys A simple Machine Learning service.
     iconClass: fa fa-robot
     openshift.io/display-name: ML Example
     openshift.io/documentation-url: https://github.com/CSCfi/rahti-ml-examples 
@@ -79,12 +79,19 @@ objects:
         - name: ${NAME} 
           image: ${NAME}:latest 
           imagePullPolicy: Always
+          volumeMounts:
+          - mountPath: /mountdata
+            name: model-vol
           ports:
           - containerPort: 8080
             protocol: TCP
           resources:
             limits:
               nvidia.com/gpu: ${GPU_RESOURCE_LIMIT}
+        volumes:
+        - name: model-vol
+          persistentVolumeClaim:
+            claimName: stable-diffusion-pvc
     triggers:
     - imageChangeParams:
         automatic: true
@@ -137,7 +144,7 @@ parameters:
 - description: Unique identifier for your application. 
   displayName: Application Name
   name: NAME
-  value: rahti-ml-examples
+  value: stable-diffusion-app
   required: true
 
 - description: The URL of repository with the application code (change the default only if you know what you are doing). 
@@ -149,7 +156,7 @@ parameters:
 - description: The branch of the source repository (tf2-imdb, onnx-imdb). 
   displayName: Source Repository Branch
   name: SOURCE_REPOSITORY_REF
-  value: tf2-imdb 
+  value: stable-diffusion
   required: true
 
 - description: The exposed hostname suffix that will be used to create routes for app
@@ -162,4 +169,4 @@ parameters:
   displayName: GPU resource limit
   name: GPU_RESOURCE_LIMIT
   required: true
-  value: '0'
+  value: '1'

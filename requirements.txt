@@ -1,2 +1,5 @@
 gunicorn
 flask
+diffusers
+transformers
+scipy
